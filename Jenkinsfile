@@ -36,7 +36,7 @@ pipeline{
         }
         stage('API Test'){
             steps{
-                dir('') {
+                dir('Api-test') {
                     git 'https://github.com/mlpdleal/tasks-api-test.git'
                     sh 'mvn test'
                 }
