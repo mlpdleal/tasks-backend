@@ -23,7 +23,7 @@ pipeline{
         }
         stage('Quality Gate'){
             steps{
-                sleep(15)
+                sleep(10)
                 timeout(time: 1, unit: 'MINUTES'){
                     waitForQualityGate abortPipeline: true
                 }
@@ -40,6 +40,17 @@ pipeline{
                     git 'https://github.com/mlpdleal/tasks-api-test.git'
                     sh 'mvn test'
                 }
+            }
+        }
+        stage('Deploy Frontend'){
+            steps{
+                dir('tasks-frontend') {
+                    git 'https://github.com/mlpdleal/tasks-frontend.git'
+                    sh 'mvn clean package'
+                    deploy adapters: [tomcat8(credentialsId: 'LoginTomcat', path: '', url: 'http://localhost:8001/')], contextPath: 'tasks', war: 'target/tasks.war'
+                }
+
+               
             }
         }
     }
