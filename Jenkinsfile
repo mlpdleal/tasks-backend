@@ -53,5 +53,13 @@ pipeline{
                
             }
         }
+         stage('Functional Test'){
+            steps{
+                dir('functional-test') {
+                    git 'https://github.com/mlpdleal/tasks-functional-test.git'
+                    sh 'mvn test'
+                }
+            }
+        }
     }
 }
